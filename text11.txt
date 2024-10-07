@@ -1,0 +1,38 @@
+views.py
+from formapp.form import LoginForm
+
+def login_view(request);
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid();
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+
+            return render(request, 'login_success.html', {'form': form})
+        
+        else:
+            form = LoginForm()
+        return render(request,'loginhtml',{'form':form})
+
+form.py
+from django import form 
+ class LoginForm(form.Form):
+     username = form.CharField(max_field=100)
+     password = form.CharField(widget = form.Password)
+
+login.html
+<form method="post" action="/login/">
+    {%csrf_token%}
+
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username">
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password">
+    <button type="submit">Submit</button>
+</form>
+
+loginsuccess
+   <html>
+    {% csrf_token %}
+welcome{{form.username}}
+</html>
